@@ -369,13 +369,18 @@ export default function App() {
 
     const remarks = remarkParts.length ? remarkParts.join('，') : '无';
     const address = [draft.address, draft.city, draft.state || 'FL'].filter(Boolean).join(', ');
+    const chain = chainForShop(draft);
+    const totalStores = chain?.total_stores || draft.chain_total_stores;
+    const storeDisplay = draft.is_chain && totalStores
+      ? `${totalStores}家`
+      : (draft.store_number || '未知');
 
     setReportText([
       `店名：${draft.name || '未知'}`,
       `地址：${address || '未知'}`,
       `老板：${owner}`,
       `电话：${draft.phone || '未知'}`,
-      `店面：${draft.store_number || '未知'}`,
+      `店面：${storeDisplay}`,
       `进货：${restock}`,
       `备注：${remarks}`
     ].join('\n'));
